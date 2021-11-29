@@ -21,6 +21,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater) // 最新的绑定方式
         val view = binding.root
         setContentView(view)
+
+        if( savedInstanceState != null){
+            val tempData = savedInstanceState.getString("data_key")
+            Log.d(tag, "tempData is $tempData")
+        }
+
         binding.startDialogActivity.setOnClickListener{
             val intent = Intent(this, DialogActivity::class.java)
             startActivity(intent)
@@ -59,5 +65,12 @@ class MainActivity : AppCompatActivity() {
     override fun onRestart() {
         super.onRestart()
         Log.d(tag, "onRestart")
+    }
+
+    // 当函数被回收前会调用的方法
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val tempData = "Something you just typed"
+        outState.putString("data_key", tempData)
     }
 }
